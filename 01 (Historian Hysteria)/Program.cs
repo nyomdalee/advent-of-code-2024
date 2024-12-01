@@ -52,11 +52,7 @@ public static class Program
             right.Add(int.Parse(parts[1]));
         }
 
-        left = [.. left.Order()];
-        right = [.. right.Order()];
-
-        var combined = left.Zip(right);
-        var result = combined.Aggregate(0, (long total, (long First, long Second) next) => total + Math.Abs(next.First - next.Second));
+        var result = left.Sum(x => x * right.Count(y => y == x));
         return result;
     }
 }
