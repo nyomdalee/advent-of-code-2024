@@ -14,6 +14,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "Utils\Utils.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02 (Red-Nosed Reports)", "02 (Red-Nosed Reports)\02 (Red-Nosed Reports).csproj", "{D8C51724-5BFD-4ACA-9191-371C5DE5E089}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03 (Mull It Over)", "03 (Mull It Over)\03 (Mull It Over).csproj", "{26BE264F-882B-4FA0-B901-BE01C1465251}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{D8C51724-5BFD-4ACA-9191-371C5DE5E089}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8C51724-5BFD-4ACA-9191-371C5DE5E089}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8C51724-5BFD-4ACA-9191-371C5DE5E089}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26BE264F-882B-4FA0-B901-BE01C1465251}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26BE264F-882B-4FA0-B901-BE01C1465251}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26BE264F-882B-4FA0-B901-BE01C1465251}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26BE264F-882B-4FA0-B901-BE01C1465251}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
