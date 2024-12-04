@@ -1,3 +1,3 @@
 ﻿namespace Utils.Grid;
 
-public record Direction(int X, int Y, string? Name);
+public record Direction(int X, int Y, DirectionName Name);

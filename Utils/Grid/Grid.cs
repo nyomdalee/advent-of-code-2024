@@ -17,18 +17,18 @@ public class Grid()
 
     public static IReadOnlyCollection<Direction> CardinalDirections { get; } =
     [
-        new Direction(0, 1, "North"),
-        new Direction(1, 0, "East"),
-        new Direction(0, -1, "South"),
-        new Direction(-1, 0, "West"),
+        new Direction(0, 1, DirectionName.North),
+        new Direction(1, 0, DirectionName.East),
+        new Direction(0, -1, DirectionName.South),
+        new Direction(-1, 0, DirectionName.West)
     ];
 
     public static IReadOnlyCollection<Direction> DiagonalDirections { get; } =
     [
-        new Direction(1, 1, "Northeast"),
-        new Direction(1, -1, "Southeast"),
-        new Direction(-1, -1, "Southwest"),
-        new Direction(-1, 1, "Northwest"),
+        new Direction(1, 1, DirectionName.NorthEast),
+        new Direction(1, -1, DirectionName.SouthEast),
+        new Direction(-1, -1, DirectionName.SouthWest),
+        new Direction(-1, 1, DirectionName.NorthWest)
     ];
 
     public static IReadOnlyCollection<Direction> AllDirections { get; } = allDirections ??= [.. CardinalDirections, .. DiagonalDirections];
@@ -53,11 +53,18 @@ public class Grid()
 
     // TODO: this is dumb but necessary
     public char GetValue(int X, int Y) => Values[Y, X];
+    public char GetValueAfterMove(Point point, Direction direction) => Values[point.Y + direction.Y, point.X + direction.X];
 
     public bool IsOutOfBounds(Point point)
     {
         return point.X < LowerBound.X || point.X > UpperBound.X ||
                point.Y < LowerBound.Y || point.Y > UpperBound.Y;
+    }
+
+    public bool IsOutOfBounds(int x, int y)
+    {
+        return x < LowerBound.X || x > UpperBound.X ||
+               y < LowerBound.Y || y > UpperBound.Y;
     }
 
     public IEnumerable<Point> Expand(Point point, IEnumerable<Direction> directions)
