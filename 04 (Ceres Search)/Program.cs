@@ -15,37 +15,46 @@ public static class Program
     {
         var grid = Grid.FromLines(lines);
 
-        var XPositions = grid.GetPointsByPredicate(x => string.Equals(x, 'X')).ToList();
+        var APositions = grid.GetPointsByPredicate(x => string.Equals(x, 'A')).ToList();
+
+        var directions = Grid.DiagonalDirections.ToDictionary(x => x.Name, x => x);
 
         var xmasCount = 0;
-        foreach (var point in XPositions)
+        foreach (var point in APositions)
         {
-            foreach (var direction in Grid.AllDirections)
+            if (IsValid(grid, point, directions))
             {
-                if (IsValid(grid, point, direction))
-                {
-                    xmasCount++;
-                }
+                xmasCount++;
             }
         }
 
         return xmasCount;
     }
-    private static bool IsValid(Grid grid, Point point, Direction direction)
+
+    private static bool IsValid(Grid grid, Point point, Dictionary<DirectionName, Direction> directions)
     {
-        var endPoint = new Point(point.X + (direction.X * 3), point.Y + (direction.Y * 3));
-        if (grid.IsOutOfBounds(endPoint))
+        foreach (var dir in directions.Values)
         {
-            return false;
+            if (grid.IsOutOfBounds(point.X + dir.X, point.Y + dir.Y))
+            {
+                return false;
+            }
         }
 
-        // kekeke
-        char[] xmas = ['X', 'M', 'A', 'S'];
+        // This is one of the dumbest things I have ever written.
+        var northWest = grid.GetValueAfterMove(point, directions[DirectionName.NorthWest]);
+        var northEast = grid.GetValueAfterMove(point, directions[DirectionName.NorthEast]);
+        var southWest = grid.GetValueAfterMove(point, directions[DirectionName.SouthWest]);
+        var southEast = grid.GetValueAfterMove(point, directions[DirectionName.SouthEast]);
 
-        for (var i = 1; i < xmas.Length; i++)
+        var pairOne = $"{northEast}{southWest}";
+        var pairTwo = $"{northWest}{southEast}";
+
+        List<string> both = [pairOne, pairTwo];
+
+        foreach (var pair in both)
         {
-            var nextChar = grid.GetValue(point.X + (direction.X * i), point.Y + (direction.Y * i));
-            if (!string.Equals(nextChar, xmas[i]))
+            if (!string.Equals(pair, "SM") && !string.Equals(pair, "MS"))
             {
                 return false;
             }
