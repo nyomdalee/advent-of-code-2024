@@ -8,7 +8,7 @@ public static class Program
     [STAThread]
     public static void Main()
     {
-        Solver.Solve(Run);
+        Solver.Solve<string>(Run);
     }
 
     private static long Run(string? text)

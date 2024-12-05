@@ -5,87 +5,63 @@ namespace Utils;
 
 public static class Solver
 {
-    public static void Solve(
-        Func<string[], long> solveFunc,
-        string inputFileName = "input.txt",
-        string sampleFileName = "sample.txt",
-        string sampleResultFileName = "sampleResult.txt")
+    private const string InputFileName = "input.txt";
+    private const string SampleFileName = "sample.txt";
+    private const string SampleResultFileName = "sampleResult.txt";
+
+    public static void Solve<T>(Func<T, long> solveFunc, bool skipSample = false)
     {
         string basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? AppContext.BaseDirectory;
-        string inputPath = Path.Combine(basePath, inputFileName);
-        string samplePath = Path.Combine(basePath, sampleFileName);
-        string sampleResultPath = Path.Combine(basePath, sampleResultFileName);
+        string inputPath = Path.Combine(basePath, InputFileName);
+        string samplePath = Path.Combine(basePath, SampleFileName);
+        string sampleResultPath = Path.Combine(basePath, SampleResultFileName);
 
-        var inputLines = File.ReadAllLines(inputPath);
-        var sampleLines = File.ReadAllLines(samplePath);
-        var parsedResult = long.TryParse(File.ReadAllText(sampleResultPath), out long sampleResult);
+        T input = ParseInput<T>(inputPath);
+        T sample = ParseInput<T>(samplePath);
+        bool parsedResult = long.TryParse(File.ReadAllText(sampleResultPath), out long sampleResult);
 
-        if (inputLines.Length == 0 || sampleLines.Length == 0 || !parsedResult)
+        if (input == null || sample == null || !parsedResult)
         {
             Console.WriteLine("Invalid inputs.");
             return;
         }
 
-        var sw = new Stopwatch();
-
-        sw.Start();
-        var actualSampleResult = solveFunc(sampleLines);
-        if (actualSampleResult != sampleResult)
-        {
-            Console.WriteLine($"Provided result: {sampleResult}, computed result: {actualSampleResult}.");
-            Console.WriteLine("Sample result does not match, terminating.");
-            return;
-        }
-        sw.Stop();
-        Console.WriteLine($"Sample result confirmed in {sw.ElapsedMilliseconds} ms.");
-
-        sw.Restart();
-        var mainResult = solveFunc(inputLines);
-        sw.Stop();
-
-        Console.WriteLine($"Main run finished in: {sw.ElapsedMilliseconds} ms.");
-        Console.WriteLine("Result:");
-        Console.WriteLine(mainResult);
-        Clipboard.SetText(mainResult.ToString());
-        Console.WriteLine("Result copied to clipboard.");
+        ProcessSolve(solveFunc, sample, sampleResult, input, skipSample);
     }
 
-    public static void Solve(
-        Func<string?, long> solveFunc,
-        string inputFileName = "input.txt",
-        string sampleFileName = "sample.txt",
-        string sampleResultFileName = "sampleResult.txt")
+    private static T ParseInput<T>(string path)
     {
-        string basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? AppContext.BaseDirectory;
-        string inputPath = Path.Combine(basePath, inputFileName);
-        string samplePath = Path.Combine(basePath, sampleFileName);
-        string sampleResultPath = Path.Combine(basePath, sampleResultFileName);
-
-        var inputLines = File.ReadAllText(inputPath);
-        var sampleLines = File.ReadAllText(samplePath);
-        var parsedResult = long.TryParse(File.ReadAllText(sampleResultPath), out long sampleResult);
-
-        if (inputLines.Length == 0 || sampleLines.Length == 0 || !parsedResult)
+        if (typeof(T) == typeof(string[]))
         {
-            Console.WriteLine("Invalid inputs.");
-            return;
+            return (T)(object)File.ReadAllLines(path);
         }
+        if (typeof(T) == typeof(string))
+        {
+            return (T)(object)File.ReadAllText(path);
+        }
+        throw new InvalidOperationException($"Unsupported input type: {typeof(T)}");
+    }
 
+    private static void ProcessSolve<T>(Func<T, long> solveFunc, T sample, long sampleResult, T input, bool skipSample)
+    {
         var sw = new Stopwatch();
 
-        sw.Start();
-        var actualSampleResult = solveFunc(sampleLines);
-        if (actualSampleResult != sampleResult)
+        if (!skipSample)
         {
-            Console.WriteLine($"Provided result: {sampleResult}, computed result: {actualSampleResult}.");
-            Console.WriteLine("Sample result does not match, terminating.");
-            return;
+            sw.Start();
+            var actualSampleResult = solveFunc(sample);
+            if (actualSampleResult != sampleResult)
+            {
+                Console.WriteLine($"Provided result: {sampleResult}, computed result: {actualSampleResult}.");
+                Console.WriteLine("Sample result does not match, terminating.");
+                return;
+            }
+            sw.Stop();
+            Console.WriteLine($"Sample result confirmed in {sw.ElapsedMilliseconds} ms.");
         }
-        sw.Stop();
-        Console.WriteLine($"Sample result confirmed in {sw.ElapsedMilliseconds} ms.");
 
         sw.Restart();
-        var mainResult = solveFunc(inputLines);
+        var mainResult = solveFunc(input);
         sw.Stop();
 
         Console.WriteLine($"Main run finished in: {sw.ElapsedMilliseconds} ms.");
