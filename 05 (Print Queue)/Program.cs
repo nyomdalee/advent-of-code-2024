@@ -25,8 +25,23 @@ public static class Program
             .ToArray();
 
         return updates
-            .Where(update => IsValid(update, rules))
-            .Sum(update => (long)update[update.Length / 2]);
+            .Where(update => !IsValid(update, rules))
+            .Sum(x => Sort(x, rules));
+    }
+
+    private static long Sort(int[] update, ILookup<int, int> rules)
+    {
+        var original = update.ToList();
+        List<int> sorted = [];
+
+        while (original.Count > 0)
+        {
+            var next = original.First(x => !rules[x].Any(y => original.Contains(y)));
+            sorted.Add(next);
+            original.Remove(next);
+        }
+
+        return sorted[sorted.Count / 2];
     }
 
     private static bool IsValid(int[] update, ILookup<int, int> rules)
