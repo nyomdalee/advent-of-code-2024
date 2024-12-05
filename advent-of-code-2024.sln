@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03 (Mull It Over)", "03 (Mu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04 (Ceres Search)", "04 (Ceres Search)\04 (Ceres Search).csproj", "{52C9D3EC-E7AD-4771-BFBA-E3484057EC58}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05 (Print Queue)", "05 (Print Queue)\05 (Print Queue).csproj", "{3691856F-D817-48F7-AF4C-D293109EBF7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{52C9D3EC-E7AD-4771-BFBA-E3484057EC58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52C9D3EC-E7AD-4771-BFBA-E3484057EC58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52C9D3EC-E7AD-4771-BFBA-E3484057EC58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3691856F-D817-48F7-AF4C-D293109EBF7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3691856F-D817-48F7-AF4C-D293109EBF7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3691856F-D817-48F7-AF4C-D293109EBF7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3691856F-D817-48F7-AF4C-D293109EBF7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
