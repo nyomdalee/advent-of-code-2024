@@ -54,6 +54,14 @@ public class Grid()
     // TODO: this is dumb but necessary
     public char GetValue(int X, int Y) => Values[Y, X];
     public char GetValueAfterMove(Point point, Direction direction) => Values[point.Y + direction.Y, point.X + direction.X];
+    public static Point Step(Point point, Direction direction) => new(point.X + direction.X, point.Y + direction.Y);
+    public void SetValue(Point point, char value) => Values[point.Y, point.X] = value;
+
+    public bool IsOutOfBounds(Point point, Direction direction)
+    {
+        return (point.X + direction.X) < LowerBound.X || (point.X + direction.X) > UpperBound.X ||
+               (point.Y + direction.Y) < LowerBound.Y || (point.Y + direction.Y) > UpperBound.Y;
+    }
 
     public bool IsOutOfBounds(Point point)
     {
