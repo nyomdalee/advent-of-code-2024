@@ -53,6 +53,7 @@ public class Grid()
 
     // TODO: this is dumb but necessary
     public char GetValue(int X, int Y) => Values[Y, X];
+    public char GetValue(Point point) => Values[point.Y, point.X];
     public char GetValueAfterMove(Point point, Direction direction) => Values[point.Y + direction.Y, point.X + direction.X];
     public static Point Step(Point point, Direction direction) => new(point.X + direction.X, point.Y + direction.Y);
     public void SetValue(Point point, char value) => Values[point.Y, point.X] = value;
