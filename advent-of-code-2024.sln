@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05 (Print Queue)", "05 (Pri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06 (Guard Gallivant)", "06 (Guard Gallivant)\06 (Guard Gallivant).csproj", "{0E54E287-C2D0-4DAD-BEBC-D4A4BAE91654}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07 (Bridge Repair)", "07 (Bridge Repair)\07 (Bridge Repair).csproj", "{B6FA3831-E868-40B2-AECC-C45AD2BB099D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{0E54E287-C2D0-4DAD-BEBC-D4A4BAE91654}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E54E287-C2D0-4DAD-BEBC-D4A4BAE91654}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E54E287-C2D0-4DAD-BEBC-D4A4BAE91654}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6FA3831-E868-40B2-AECC-C45AD2BB099D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6FA3831-E868-40B2-AECC-C45AD2BB099D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6FA3831-E868-40B2-AECC-C45AD2BB099D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6FA3831-E868-40B2-AECC-C45AD2BB099D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
