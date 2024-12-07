@@ -8,6 +8,7 @@ public static class Program
     {
         Add,
         Multi,
+        Concat
     };
 
     [STAThread]
@@ -29,7 +30,8 @@ public static class Program
         List<Operators[]> currentLevel =
         [
             [Operators.Add] ,
-            [Operators.Multi]
+            [Operators.Multi],
+            [Operators.Concat]
         ];
 
         allCombinations.AddRange(currentLevel);
@@ -42,6 +44,7 @@ public static class Program
             {
                 nextLevel.Add([.. combination, Operators.Add]);
                 nextLevel.Add([.. combination, Operators.Multi]);
+                nextLevel.Add([.. combination, Operators.Concat]);
             }
 
             allCombinations.AddRange(nextLevel);
@@ -66,9 +69,13 @@ public static class Program
                 {
                     sum += equation.Values[i + 1];
                 }
-                else
+                else if (combination[i] == Operators.Multi)
                 {
                     sum *= equation.Values[i + 1];
+                }
+                else
+                {
+                    sum = long.Parse($"{sum}{equation.Values[i + 1]}");
                 }
             }
             if (sum == equation.Result)
