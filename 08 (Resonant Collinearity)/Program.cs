@@ -29,8 +29,6 @@ public static class Program
         foreach (var group in antennas)
         {
             OogaBooga(grid, group, antinodes);
-            Console.WriteLine($"{group.Key}:{antinodes.Cast<bool>().Count(x => x)}");
-
         }
 
         return antinodes.Cast<bool>().Count(x => x);
@@ -38,40 +36,39 @@ public static class Program
 
     private static void OogaBooga(Grid grid, IGrouping<char, Antenna> group, bool[,] antinodes)
     {
-        var freq = group.Key;
         var ants = group.ToArray();
+
+        if (ants.Length <= 1)
+        {
+            return;
+        }
+
 
         for (var i = 0; i < ants.Length; i++)
         {
             var current = ants[i];
+            antinodes[current.Point.X, current.Point.Y] = true;
 
             for (var j = i + 1; j < ants.Length; j++)
             {
-                var next = ants[j];
+                var alter = ants[j];
+                var offset = (X: current.Point.X - alter.Point.X, Y: current.Point.Y - alter.Point.Y);
 
-                var offset1 = (X: current.Point.X - next.Point.X, Y: current.Point.Y - next.Point.Y);
-                var offset2 = (X: next.Point.X - current.Point.X, Y: next.Point.Y - current.Point.Y);
+                var nexp = (X: current.Point.X + offset.X, Y: current.Point.Y + offset.Y);
+                var nexM = (X: current.Point.X - offset.X, Y: current.Point.Y - offset.Y);
 
-                var cur1 = (X: current.Point.X + offset1.X, Y: current.Point.Y + offset1.Y);
-                var cur2 = (X: current.Point.X + offset2.X, Y: current.Point.Y + offset2.Y);
-                var nex1 = (X: next.Point.X + offset1.X, Y: next.Point.Y + offset1.Y);
-                var nex2 = (X: next.Point.X + offset2.X, Y: next.Point.Y + offset2.Y);
+                while (!grid.IsOutOfBounds(nexp.X, nexp.Y))
+                {
+                    antinodes[nexp.X, nexp.Y] = true;
+                    nexp = (X: nexp.X + offset.X, Y: nexp.Y + offset.Y);
 
-                if (!grid.IsOutOfBounds(nex1.X, nex1.Y) && !Equals(grid.GetValue(nex1.X, nex1.Y), freq))
-                {
-                    antinodes[nex1.X, nex1.Y] = true;
                 }
-                if (!grid.IsOutOfBounds(nex2.X, nex2.Y) && !Equals(grid.GetValue(nex2.X, nex2.Y), freq))
+
+                while (!grid.IsOutOfBounds(nexM.X, nexM.Y))
                 {
-                    antinodes[nex2.X, nex2.Y] = true;
-                }
-                if (!grid.IsOutOfBounds(cur1.X, cur1.Y) && !Equals(grid.GetValue(cur1.X, cur1.Y), freq))
-                {
-                    antinodes[cur1.X, cur1.Y] = true;
-                }
-                if (!grid.IsOutOfBounds(cur2.X, cur2.Y) && !Equals(grid.GetValue(cur2.X, cur2.Y), freq))
-                {
-                    antinodes[cur2.X, cur2.Y] = true;
+                    antinodes[nexM.X, nexM.Y] = true;
+                    nexM = (X: nexM.X - offset.X, Y: nexM.Y - offset.Y);
+
                 }
             }
         }
