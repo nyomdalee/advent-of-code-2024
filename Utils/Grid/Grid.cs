@@ -128,12 +128,12 @@ public class Grid()
         int rows = UpperBound.Y;
         int columns = UpperBound.X;
 
-        for (int i = 0; i <= rows; i++)
+        for (int x = 0; x <= columns; x++)
         {
-            for (int j = 0; j <= columns; j++)
+            for (int y = 0; y <= rows; y++)
             {
-                var element = Values[i, j];
-                yield return func(i, j, element);
+                var element = Values[y, x];
+                yield return func(x, y, element);
             }
         }
     }
