@@ -36,34 +36,54 @@ public static class Program
             }
         }
 
+        bool[] alreadyTouched = new bool[expanded.Where(x => x is not null).Max(x => x.Value + 1)];
+
         for (int i = expanded.Length - 1; i >= 0; i--)
         {
-            //DebugPrint(expanded);
-
-            if (expanded[i] is not null)
+            var nextId = expanded[i];
+            if (nextId is not null)
             {
-                var nextSlot = FindSlot(expanded, i);
+                {
+                    if (alreadyTouched[(int)nextId])
+                    {
+                        continue;
+                    }
+                }
+
+                var blockLength = GetBlockLength(expanded, i, (int)nextId);
+
+                var nextSlot = FindSlotOfLength(expanded, blockLength, i);
+                alreadyTouched[(int)nextId] = true;
 
                 if (nextSlot == -1)
                 {
-                    break;
+                    continue;
                 }
 
-                expanded[nextSlot] = expanded[i];
-                expanded[i] = null;
+                MoveBlock(expanded, i, blockLength, nextSlot, (int)nextId);
+
             }
         }
 
-
-        var total = expanded
+        return expanded
             .Select((value, index) => new { value, index })
             .Where(x => x.value is not null)
             .Aggregate(0L, (current, next) => current + (long)(next.value * next.index));
+    }
+    private static void MoveBlock(int?[] expanded, int current, int length, int slotStart, int value)
+    {
+        for (int i = 0; i < length; i++)
+        {
+            expanded[slotStart + i] = value;
+        }
 
-        return total;
+        for (int i = 0; i < length; i++)
+        {
+            expanded[current - i] = null;
+        }
     }
 
-    private static int FindSlot(int?[] expanded, int max)
+    private static int FindSlotOfLength(int?[] expanded, int length, int max)
     {
         for (int i = 0; i < expanded.Length; i++)
         {
@@ -72,7 +92,7 @@ public static class Program
                 break;
             }
 
-            if (expanded[i] == null)
+            if (expanded[i] == null && CanFitBlock(expanded, i, length))
             {
                 return i;
             }
@@ -80,9 +100,26 @@ public static class Program
         return -1;
     }
 
-    private static void DebugPrint(int?[] fuck)
+    private static bool CanFitBlock(int?[] expanded, int current, int length)
     {
-        string result = string.Join(" ", fuck.Select(n => n.HasValue ? n.ToString() : "."));
-        Console.WriteLine(result);
+        for (int i = current; i < current + length; i++)
+        {
+            if (expanded[i] is not null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static int GetBlockLength(int?[] expanded, int i, int nextId)
+    {
+        int length = 0;
+        while (i >= 0 && expanded[i] == nextId)
+        {
+            length++;
+            i--;
+        }
+        return length;
     }
 }
