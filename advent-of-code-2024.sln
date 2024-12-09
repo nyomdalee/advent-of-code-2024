@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07 (Bridge Repair)", "07 (B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08 (Resonant Collinearity)", "08 (Resonant Collinearity)\08 (Resonant Collinearity).csproj", "{73280E38-F6F4-4310-806D-8BC48519DAAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "09 (Disk Fragmenter)", "09 (Disk Fragmenter)\09 (Disk Fragmenter).csproj", "{6BCCF636-2E19-40E7-A246-D362A4DB66BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{73280E38-F6F4-4310-806D-8BC48519DAAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73280E38-F6F4-4310-806D-8BC48519DAAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73280E38-F6F4-4310-806D-8BC48519DAAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BCCF636-2E19-40E7-A246-D362A4DB66BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BCCF636-2E19-40E7-A246-D362A4DB66BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BCCF636-2E19-40E7-A246-D362A4DB66BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BCCF636-2E19-40E7-A246-D362A4DB66BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
