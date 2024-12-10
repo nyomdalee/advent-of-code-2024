@@ -44,7 +44,7 @@ public static class Program
                     }
                 }
             }
-            currentLevel = nextLevel.Distinct().ToList();
+            currentLevel = nextLevel;
         }
 
         return currentLevel.Count;
