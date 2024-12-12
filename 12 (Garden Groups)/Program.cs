@@ -11,15 +11,23 @@ public static class Program
         Solver.Solve<string[]>(Run);
     }
 
+    private static readonly Dictionary<DirectionName, Direction> turnRight = new()
+    {
+        { DirectionName.North, Grid.CardinalDirections.First(x => x.Name == DirectionName.East) },
+        { DirectionName.East, Grid.CardinalDirections.First(x => x.Name == DirectionName.South) },
+        { DirectionName.South, Grid.CardinalDirections.First(x => x.Name == DirectionName.West) },
+        { DirectionName.West, Grid.CardinalDirections.First(x => x.Name == DirectionName.North) },
+    };
+
     private static long Run(string[] lines)
     {
         var grid = Grid.FromLines(lines);
 
         var resolved = new bool[grid.UpperBound.X + 1, grid.UpperBound.Y + 1];
 
-        return grid.LoopWithIndices(DoThing).Where(x => x != 0).Sum();
+        return grid.LoopWithIndices(GetGroupValue).Where(x => x != 0).Sum();
 
-        long DoThing(int x, int y, char value)
+        long GetGroupValue(int x, int y, char value)
         {
             if (resolved[x, y])
             {
@@ -54,19 +62,45 @@ public static class Program
             }
             while (currentSet.Count > 0);
 
-            int perim = 0;
-            foreach (var point in group)
-            {
-                foreach (var dir in Grid.CardinalDirections)
-                {
-                    if (grid.IsOutOfBounds(point, dir) || !Equals(grid.GetValueAfterMove(point, dir), value))
-                    {
-                        perim++;
-                    }
-                }
-            }
-
-            return perim * group.Count;
+            return group.Count * CountCorners(grid, group, value);
         }
+    }
+
+    private static long CountCorners(Grid grid, List<Point> group, char value) =>
+        group.Sum(point =>
+            Grid.CardinalDirections.Count(direction =>
+                IsOuter(grid, point, direction, value) || IsInner(grid, point, direction, value)));
+
+
+    private static bool IsOuter(Grid grid, Point point, Direction direction, char value)
+    {
+        var ahead = Grid.Step(point, direction);
+        var rightAngle = Grid.Step(point, turnRight[direction.Name]);
+
+        return (grid.IsOutOfBounds(ahead) || !Equals(grid.GetValue(ahead), value))
+            && (grid.IsOutOfBounds(rightAngle) || !Equals(grid.GetValue(rightAngle), value));
+    }
+
+    private static bool IsInner(Grid grid, Point point, Direction direction, char value)
+    {
+        var ahead = Grid.Step(point, direction);
+        var rightAngle = Grid.Step(point, turnRight[direction.Name]);
+        var diagonal = GetDiagonal(point, ahead, rightAngle);
+
+        if (grid.IsOutOfBounds(ahead) || grid.IsOutOfBounds(rightAngle))
+        {
+            return false;
+        }
+
+        return Equals(grid.GetValue(ahead), value)
+            && Equals(grid.GetValue(rightAngle), value)
+            && !Equals(grid.GetValue(diagonal), value);
+    }
+
+    private static Point GetDiagonal(Point pivot, Point point1, Point point2)
+    {
+        int x = point1.X == pivot.X ? point2.X : point1.X;
+        int y = point1.Y == pivot.Y ? point2.Y : point1.Y;
+        return new Point(x, y);
     }
 }
