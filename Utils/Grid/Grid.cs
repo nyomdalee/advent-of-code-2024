@@ -88,6 +88,9 @@ public class Grid()
         }
     }
 
+    public static Direction GetDirectionByName(DirectionName directionName)
+        => AllDirections.First(x => x.Name == directionName);
+
     public Grid DeepCleanCopy()
     {
         int rows = UpperBound.Y;
