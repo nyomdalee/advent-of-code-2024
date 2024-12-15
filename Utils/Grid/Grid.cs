@@ -54,9 +54,10 @@ public class Grid()
     // TODO: this is dumb but necessary
     public char GetValue(int X, int Y) => Values[Y, X];
     public char GetValue(Point point) => Values[point.Y, point.X];
-    public char GetValueAfterMove(Point point, Direction direction) => Values[point.Y + direction.Y, point.X + direction.X];
+    public char GetValueAfterMove(Point point, Direction direction, int steps = 1) => Values[point.Y + (direction.Y * steps), point.X + (direction.X * steps)];
     public static Point Step(Point point, Direction direction) => new(point.X + direction.X, point.Y + direction.Y);
     public void SetValue(Point point, char value) => Values[point.Y, point.X] = value;
+    public void SetValueAfterMove(Point point, Direction direction, char value, int steps = 1) => Values[point.Y + (direction.Y * steps), point.X + (direction.X * steps)] = value;
 
     public bool IsOutOfBounds(Point point, Direction direction)
     {
@@ -144,6 +145,18 @@ public class Grid()
     public void DebugPrint()
     {
         for (int i = Values.GetLength(0) - 1; i >= 0; i--)
+        {
+            for (int j = 0; j < Values.GetLength(1); j++)
+            {
+                Console.Write(Values[i, j]);
+            }
+            Console.WriteLine();
+        }
+    }
+
+    public void DebugPrintInverse()
+    {
+        for (int i = 0; i < Values.GetLength(0); i++)
         {
             for (int j = 0; j < Values.GetLength(1); j++)
             {

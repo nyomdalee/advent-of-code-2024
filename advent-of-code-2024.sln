@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "13 (Claw Contraption)", "13
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14 (Restroom Redoubt)", "14 (Restroom Redoubt)\14 (Restroom Redoubt).csproj", "{11933851-0DCA-4CE5-BEDD-599C837DE96E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15 (Warehouse Woes)", "15 (Warehouse Woes)\15 (Warehouse Woes).csproj", "{C5228C6C-99F2-404C-BA68-FDF538267DE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{11933851-0DCA-4CE5-BEDD-599C837DE96E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11933851-0DCA-4CE5-BEDD-599C837DE96E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11933851-0DCA-4CE5-BEDD-599C837DE96E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5228C6C-99F2-404C-BA68-FDF538267DE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5228C6C-99F2-404C-BA68-FDF538267DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5228C6C-99F2-404C-BA68-FDF538267DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5228C6C-99F2-404C-BA68-FDF538267DE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
