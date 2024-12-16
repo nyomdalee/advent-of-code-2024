@@ -33,6 +33,22 @@ public class Grid()
 
     public static IReadOnlyCollection<Direction> AllDirections { get; } = allDirections ??= [.. CardinalDirections, .. DiagonalDirections];
 
+    public static readonly Dictionary<DirectionName, Direction> TurnRight = new()
+    {
+        { DirectionName.North, GetDirectionByName(DirectionName.East) },
+        { DirectionName.East, GetDirectionByName(DirectionName.South) },
+        { DirectionName.South, GetDirectionByName(DirectionName.West) },
+        { DirectionName.West, GetDirectionByName(DirectionName.North) },
+    };
+
+    public static readonly Dictionary<DirectionName, Direction> TurnLeft = new()
+    {
+        { DirectionName.North, GetDirectionByName(DirectionName.West) },
+        { DirectionName.East, GetDirectionByName(DirectionName.North) },
+        { DirectionName.South, GetDirectionByName(DirectionName.East) },
+        { DirectionName.West, GetDirectionByName(DirectionName.South) },
+    };
+
     public static Grid FromLines(string[]? lines)
     {
         ArgumentNullException.ThrowIfNull(lines);
@@ -55,7 +71,7 @@ public class Grid()
     public char GetValue(int X, int Y) => Values[Y, X];
     public char GetValue(Point point) => Values[point.Y, point.X];
     public char GetValueAfterMove(Point point, Direction direction, int steps = 1) => Values[point.Y + (direction.Y * steps), point.X + (direction.X * steps)];
-    public static Point Step(Point point, Direction direction) => new(point.X + direction.X, point.Y + direction.Y);
+    public static Point Step(Point point, Direction direction, int steps = 1) => new(point.X + (direction.X * steps), point.Y + (direction.Y * steps));
     public void SetValue(Point point, char value) => Values[point.Y, point.X] = value;
     public void SetValueAfterMove(Point point, Direction direction, char value, int steps = 1) => Values[point.Y + (direction.Y * steps), point.X + (direction.X * steps)] = value;
 
