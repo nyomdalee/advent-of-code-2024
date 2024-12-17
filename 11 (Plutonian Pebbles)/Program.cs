@@ -7,7 +7,7 @@ public static class Program
     [STAThread]
     public static void Main()
     {
-        Solver.Solve<string>(Run, true);
+        Solver.Solve<string, long>(Run, true);
     }
 
     private static long Run(string? line)
