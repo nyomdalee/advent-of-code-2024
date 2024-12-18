@@ -67,6 +67,20 @@ public class Grid()
         return grid;
     }
 
+    public static Grid UniformOfSize(int x, int y, char value)
+    {
+        var grid = new Grid { Values = new char[x, y] };
+
+        for (int i = 0; i < y; i++)
+        {
+            for (int j = 0; j < x; j++)
+            {
+                grid.Values[i, j] = value;
+            }
+        }
+        return grid;
+    }
+
     // TODO: this is dumb but necessary
     public char GetValue(int X, int Y) => Values[Y, X];
     public char GetValue(Point point) => Values[point.Y, point.X];
