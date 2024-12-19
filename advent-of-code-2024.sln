@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "17 (Chronospatial Computer)
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "18 (RAM Run)", "18 (RAM Run)\18 (RAM Run).csproj", "{00D82CB3-68DB-4958-B429-F6FA9D2BA049}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "19 (Linen Layout)", "19 (Linen Layout)\19 (Linen Layout).csproj", "{336A5192-FB88-4FF2-9080-43F5BD666829}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,10 @@ Global
 		{00D82CB3-68DB-4958-B429-F6FA9D2BA049}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00D82CB3-68DB-4958-B429-F6FA9D2BA049}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00D82CB3-68DB-4958-B429-F6FA9D2BA049}.Release|Any CPU.Build.0 = Release|Any CPU
+		{336A5192-FB88-4FF2-9080-43F5BD666829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{336A5192-FB88-4FF2-9080-43F5BD666829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{336A5192-FB88-4FF2-9080-43F5BD666829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{336A5192-FB88-4FF2-9080-43F5BD666829}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
