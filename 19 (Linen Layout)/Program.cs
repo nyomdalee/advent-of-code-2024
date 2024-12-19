@@ -7,7 +7,7 @@ public static class Program
     [STAThread]
     public static void Main()
     {
-        Solver.Solve<string[], long>(Run, true);
+        Solver.Solve<string[], long>(Run);
     }
 
     private static long Run(string[] lines)
@@ -15,45 +15,68 @@ public static class Program
         string[] towels = lines[0].Split(", ");
         string[] requests = lines[2..^0];
 
-        return requests.Count(x => TryFill(x, towels));
+        return requests.Sum(x => GetCombinationCount(x, towels));
     }
-    private static bool TryFill(string request, string[] towels)
+
+    private static long GetCombinationCount(string request, string[] towels)
     {
-        List<string> current = [string.Empty];
+        var validForPosition = ValidTowelLengths(request, towels);
+        Dictionary<int, long> currentLayer = new() { { 0, 1 } };
 
-        while (current.Count > 0)
+        long combinations = 0;
+        while (currentLayer.Count > 0)
         {
-            List<string> next = [];
-            foreach (var str in current)
+            Dictionary<int, long> nextLayer = [];
+
+            foreach (var current in currentLayer)
             {
-                foreach (var towel in towels)
+                foreach (var length in validForPosition[current.Key].ToList())
                 {
-                    string tryString = str + towel;
-                    if (tryString.Length > request.Length)
+                    int combinedLength = current.Key + length;
+
+                    if (combinedLength == request.Length)
                     {
-                        continue;
+                        combinations += current.Value;
                     }
-
-                    var sub = request[..(tryString.Length)];
-
-                    if (Equals(tryString, sub))
+                    else
                     {
-                        if (tryString.Length == request.Length)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            next.Add(tryString);
-                        }
+                        nextLayer.TryAddCount(combinedLength, current.Value);
                     }
-
                 }
             }
 
-            current = next.Distinct().ToList();
+            currentLayer = nextLayer;
         }
+        return combinations;
+    }
 
-        return false;
+    static ILookup<int, int> ValidTowelLengths(string request, string[] towels)
+    {
+        List<(int i, int l)> lengths = [];
+        for (int i = 0; i < request.Length; i++)
+        {
+            foreach (var towel in towels)
+            {
+                if (towel.Length + i > request.Length)
+                {
+                    continue;
+                }
+
+                var subs = request[i..(i + towel.Length)];
+                if (Equals(subs, towel))
+                {
+                    lengths.Add((i, towel.Length));
+                }
+            }
+        }
+        return lengths.ToLookup(x => x.i, x => x.l);
+    }
+
+    public static void TryAddCount(this Dictionary<int, long> things, int len, long count)
+    {
+        if (!things.TryAdd(len, count))
+        {
+            things[len] += count;
+        }
     }
 }
