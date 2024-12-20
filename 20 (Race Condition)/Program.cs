@@ -7,11 +7,12 @@ namespace Twenty;
 public static class Program
 {
     const char Rock = '#';
+    const int CheatDuration = 20;
 
     [STAThread]
     public static void Main()
     {
-        Solver.Solve<string[], long>(Run);
+        Solver.Solve<string[], long>(Run, true);
     }
 
     private static long Run(string[] lines)
@@ -47,34 +48,56 @@ public static class Program
             currentLayer = nextLayer;
         }
 
-        var endValue = lowestVisited[end.X, end.Y];
-        var punktoC = pathPunktos.Count;
-
-        var yekkers = pathPunktos
-            .SelectMany(x => GetCutLenghts(grid, x, lowestVisited))
+        var offsets = GetReachableOffsetsWithSteps();
+        return pathPunktos
+            .SelectMany(x => GetCutLenghts(grid, x, lowestVisited, offsets))
             .GroupBy(x => x)
-            .ToDictionary(x => x.Key, x => x.Count());
-
-        var above100 = yekkers
+            .ToDictionary(x => x.Key, x => x.Count())
             .Where(x => x.Key >= 100)
             .Sum(x => x.Value);
-
-        return above100;
     }
 
-    private static List<int> GetCutLenghts(Grid grid, Point punkto, int[,] lowestVisited)
+    public static Dictionary<Point, int> GetReachableOffsetsWithSteps()
+    {
+        var start = new Point(0, 0);
+
+        var pointsWithSteps = new Dictionary<Point, int>() { { start, 0 } };
+        var queue = new Queue<(Point position, int steps)>();
+
+        queue.Enqueue((start, 0));
+
+        while (queue.Count > 0)
+        {
+            var (currentPoint, currentSteps) = queue.Dequeue();
+
+            if (currentSteps >= CheatDuration)
+            {
+                continue;
+            }
+
+            foreach (var direction in Grid.CardinalDirections)
+            {
+                var newPoint = new Point(currentPoint.X + direction.X, currentPoint.Y + direction.Y);
+
+                if (pointsWithSteps.TryAdd(newPoint, currentSteps + 1))
+                {
+                    queue.Enqueue((newPoint, currentSteps + 1));
+                }
+            }
+        }
+
+        return pointsWithSteps;
+    }
+
+    private static List<int> GetCutLenghts(Grid grid, Point punkto, int[,] lowestVisited, Dictionary<Point, int> offsets)
     {
         List<int> cuts = [];
-        foreach (var dir in Grid.CardinalDirections)
+        foreach (var offset in offsets)
         {
-            if (!grid.IsOutOfBounds(punkto, dir)
-                && !grid.IsOutOfBounds(punkto, dir, 2)
-                && Equals(grid.GetValueAfterMove(punkto, dir), Rock)
-                && !Equals(grid.GetValueAfterMove(punkto, dir, 2), Rock))
+            var newPoint = new Point(punkto.X + offset.Key.X, punkto.Y + offset.Key.Y);
+            if (!grid.IsOutOfBounds(newPoint) && !Equals(grid.GetValue(newPoint), Rock))
             {
-                var nexpos = Grid.Step(punkto, dir, 2);
-                var diff = lowestVisited[nexpos.X, nexpos.Y] - 2 - lowestVisited[punkto.X, punkto.Y];
-
+                var diff = lowestVisited[newPoint.X, newPoint.Y] - offset.Value - lowestVisited[punkto.X, punkto.Y];
                 if (diff > 0)
                 {
                     cuts.Add(diff);
