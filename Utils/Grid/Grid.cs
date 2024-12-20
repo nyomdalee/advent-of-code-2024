@@ -89,10 +89,10 @@ public class Grid()
     public void SetValue(Point point, char value) => Values[point.Y, point.X] = value;
     public void SetValueAfterMove(Point point, Direction direction, char value, int steps = 1) => Values[point.Y + (direction.Y * steps), point.X + (direction.X * steps)] = value;
 
-    public bool IsOutOfBounds(Point point, Direction direction)
+    public bool IsOutOfBounds(Point point, Direction direction, int steps = 1)
     {
-        return (point.X + direction.X) < LowerBound.X || (point.X + direction.X) > UpperBound.X ||
-               (point.Y + direction.Y) < LowerBound.Y || (point.Y + direction.Y) > UpperBound.Y;
+        return (point.X + (direction.X * steps)) < LowerBound.X || (point.X + (direction.X * steps)) > UpperBound.X ||
+               (point.Y + (direction.Y * steps)) < LowerBound.Y || (point.Y + (direction.Y * steps)) > UpperBound.Y;
     }
 
     public bool IsOutOfBounds(Point point)

@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "18 (RAM Run)", "18 (RAM Run
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "19 (Linen Layout)", "19 (Linen Layout)\19 (Linen Layout).csproj", "{336A5192-FB88-4FF2-9080-43F5BD666829}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "20 (Race Condition)", "20 (Race Condition)\20 (Race Condition).csproj", "{3EA61654-5268-439C-BF6F-E3956AAB3B83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -134,6 +136,10 @@ Global
 		{336A5192-FB88-4FF2-9080-43F5BD666829}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{336A5192-FB88-4FF2-9080-43F5BD666829}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{336A5192-FB88-4FF2-9080-43F5BD666829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EA61654-5268-439C-BF6F-E3956AAB3B83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EA61654-5268-439C-BF6F-E3956AAB3B83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EA61654-5268-439C-BF6F-E3956AAB3B83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EA61654-5268-439C-BF6F-E3956AAB3B83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
