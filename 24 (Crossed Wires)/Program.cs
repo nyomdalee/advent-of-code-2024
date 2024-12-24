@@ -1,74 +1,93 @@
 ﻿using System.Text.RegularExpressions;
 using Utils;
 
-namespace TwentyThree;
+namespace TwentyFour;
 
 public static class Program
 {
+    const string xLSB = "x00";
+    const string yLSB = "y00";
+    const string zMSB = "z45";
+
     [STAThread]
     public static void Main()
     {
-        Solver.Solve<string, long>(Run);
+        Solver.Solve<string, string>(Run, true);
     }
 
-    public static long Run(string text)
+    public static string Run(string text)
     {
         var gateMatches = Regex.Matches(text, @"(?<inOne>\w+) (?<type>\w+) (?<ineTwo>\w+) -> (?<out>\w+)");
-        var allWires = gateMatches
-            .SelectMany(x => new[] { x.Groups[1].Value, x.Groups[3].Value, x.Groups[4].Value })
-            .Distinct()
-            .Order()
-            .ToDictionary(x => x, _ => (bool?)null);
-
-        var startMatches = Regex.Matches(text, @"(?<gate>\w+): (?<value>\d)");
-        foreach (Match match in startMatches)
-        {
-            allWires[match.Groups[1].Value] = Convert.ToBoolean(int.Parse(match.Groups[2].Value));
-        }
 
         var gates = gateMatches
-            .Select(x => new Gate(x.Groups[1].Value, x.Groups[3].Value, x.Groups[2].Value, x.Groups[4].Value))
+            .Select(x => new Gate(
+                x.Groups[1].Value,
+                x.Groups[3].Value,
+                ToGateType(x.Groups[2].Value),
+                x.Groups[4].Value))
+            .ToDictionary(x => x.OutWire, x => x);
+
+        return ValidateAdderStructure(gates);
+    }
+
+    private static string ValidateAdderStructure(Dictionary<string, Gate> gates)
+    {
+        var invalidOutputGates = gates
+            .Where(x => x.Key.StartsWith('z')
+                && x.Key != zMSB
+                && x.Value.Type != GateType.XOR)
+            .Select(x => x.Key)
+            .ToHashSet();
+
+        var xorGates = gates
+            .Where(x => x.Value.Type == GateType.XOR)
             .ToList();
 
-        var zWires = allWires.Keys.Where(x => x.StartsWith('z')).ToList();
+        var invalidInputSumGates = xorGates
+            .Where(x => !x.Key.StartsWith('z')
+                && !x.Value.In1.StartsWith('x') && !x.Value.In1.StartsWith('y')
+                && !x.Value.In2.StartsWith('x') && !x.Value.In2.StartsWith('y'))
+            .Select(x => x.Key)
+            .ToHashSet();
 
+        var invalidOutputSumGates = xorGates
+            .Where(x => gates
+                .Any(y => y.Value.Type == GateType.OR
+                    && (x.Key == y.Value.In1 || x.Key == y.Value.In2)))
+            .Select(x => x.Key)
+            .ToHashSet();
 
-        while (!ZsDone(allWires, zWires))
-        {
-            foreach (var gate in gates.Where(x => allWires[x.outGate] is null))
-            {
-                var oneValue = allWires[gate.wire1];
-                var twoValue = allWires[gate.wire2];
-                if (oneValue is not null && twoValue is not null)
-                {
-                    DoOp((bool)oneValue, (bool)twoValue, gate.outGate, gate.type, allWires);
-                }
-            }
-        }
+        var invalidCarryGates = gates
+            .Where(x => x.Value.Type == GateType.AND
+                && x.Value.In1 is not (xLSB or yLSB)
+                && x.Value.In2 is not (xLSB or yLSB)
+                && gates.Any(y => y.Value.Type != GateType.OR
+                    && (x.Key == y.Value.In1 || x.Key == y.Value.In2)))
+            .Select(x => x.Key)
+            .ToHashSet();
 
-        return Convert.ToInt64(string.Join("", allWires
-            .Where(x => zWires.Contains(x.Key)).Reverse()
-            .Select(x => Convert.ToInt32(x.Value))), 2);
+        var invalid = invalidOutputGates
+            .Union(invalidInputSumGates)
+            .Union(invalidCarryGates)
+            .Union(invalidOutputSumGates);
+
+        return string.Join(',', invalid.Order());
     }
 
-    private static void DoOp(bool oneValue, bool twoValue, string outWire, string op, Dictionary<string, bool?> allwires)
+    private static GateType ToGateType(string gateType) => gateType switch
     {
-        switch (op)
-        {
-            case "OR":
-                allwires[outWire] = oneValue || twoValue;
-                break;
-            case "AND":
-                allwires[outWire] = oneValue && twoValue;
-                break;
-            case "XOR":
-                allwires[outWire] = ((oneValue ? 1 : 0) ^ (twoValue ? 1 : 0)) == 1;
-                break;
-        }
+        "OR" => GateType.OR,
+        "AND" => GateType.AND,
+        "XOR" => GateType.XOR,
+        _ => throw new InvalidDataException()
+    };
+
+    private record Gate(string In1, string In2, GateType Type, string OutWire);
+
+    private enum GateType
+    {
+        AND,
+        OR,
+        XOR
     }
-
-    private static bool ZsDone(Dictionary<string, bool?> allwires, List<string> zWires) =>
-        zWires.All(x => allwires[x] is not null);
-
-    record Gate(string wire1, string wire2, string type, string outGate);
 }
