@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "22 (Monkey Market)", "22 (M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "23 (LAN Party)", "23 (LAN Party)\23 (LAN Party).csproj", "{86D6835F-323B-4429-951D-0998056780F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "24 (Crossed Wires)", "24 (Crossed Wires)\24 (Crossed Wires).csproj", "{4843C2FB-CF68-4658-B965-27DA70BB3A16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -158,6 +160,10 @@ Global
 		{86D6835F-323B-4429-951D-0998056780F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86D6835F-323B-4429-951D-0998056780F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86D6835F-323B-4429-951D-0998056780F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4843C2FB-CF68-4658-B965-27DA70BB3A16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4843C2FB-CF68-4658-B965-27DA70BB3A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4843C2FB-CF68-4658-B965-27DA70BB3A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4843C2FB-CF68-4658-B965-27DA70BB3A16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
